@@ -39,7 +39,7 @@ class AuthService {
       password: hash,
     });
     const token = createToken(user._id);
-    return { email: user.email, token };
+    return { name: user.name, token };
   }
 }
 
