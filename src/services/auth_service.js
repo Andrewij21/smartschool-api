@@ -26,17 +26,17 @@ class AuthService {
     return { email, token };
   }
 
-  async registerStudent({ email, password }) {
-    const exist = await Student.findOne({ email, role: "student" });
+  async registerStudent(data) {
+    const exist = await Student.findOne({ nis: data.nis });
     if (exist) throw Error("Student already exist!");
 
     const salt = await bcrypt.genSalt(10);
-    const hash = await bcrypt.hash(password, salt);
+    const hash = await bcrypt.hash(data.password, salt);
 
     const user = await Student.create({
-      email,
-      password: hash,
+      ...data,
       role: "student",
+      password: hash,
     });
     const token = createToken(user._id);
     return { email: user.email, token };

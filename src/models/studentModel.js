@@ -36,6 +36,10 @@ const schema = new Schema(
     address: {
       type: String,
     },
+    active: {
+      type: Boolean,
+      required: true,
+    },
   },
   {
     timestamps: true,
