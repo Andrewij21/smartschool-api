@@ -7,9 +7,9 @@ const createToken = ({ _id, role }) => {
 };
 
 class AuthService {
-  async loginStudent({ email, password }) {
+  async loginStudent({ nis, password }) {
     // Check if the user with the given username and role 'student' exists
-    const user = await Student.findOne({ email, role: "student" });
+    const user = await Student.findOne({ nis, role: "student" });
     if (!user) {
       throw new Error("Invalid username or role");
     }
@@ -23,7 +23,7 @@ class AuthService {
     // Generate a JWT token
     const token = createToken(user._id, user.role);
 
-    return { email, token };
+    return { name: user.name, role: user.role, token };
   }
 
   async registerStudent(data) {
