@@ -21,12 +21,6 @@ app.use(helmet()); // Secure HTTP headers
 // ); //Compress response
 app.use(routes); // Handle all routes
 
-// Use LOG request
-app.use((req, res, next) => {
-  console.info(req.method, req.url);
-  next();
-});
-
 mongoose.set("strictQuery", false);
 mongoose
   .connect(process.env.MONGO_URI)
