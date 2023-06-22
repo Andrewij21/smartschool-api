@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const User = require("../model/userModel");
+const Student = require("../models/studentModel");
 
 const verifyAuth = async (req, res, next) => {
   const authorization = req.headers.authorization;
@@ -8,7 +8,7 @@ const verifyAuth = async (req, res, next) => {
 
   try {
     const { _id } = jwt.verify(token, process.env.SECRET_TOKEN);
-    req.user_id = await User.findById(_id).select("_id");
+    req.user_id = await Student.findById(_id).select("_id");
     next();
   } catch (error) {
     res.status(403).json({ error: "Invalid Token" });
