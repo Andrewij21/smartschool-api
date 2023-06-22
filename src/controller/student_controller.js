@@ -1,30 +1,33 @@
 const StudentService = require("../services/student_service.js");
+let response;
 
 class StudentController {
   async students(req, res) {
     try {
       const data = await StudentService.getStudent();
-      res.status(200).json({ status: "ok", data });
+      response = data;
     } catch (error) {
-      console.log("error");
-      res.status(500).json({ error: error.toString() });
+      response = error;
     }
+    res.status(response.code).json({ ...response });
   }
   async removeStudent(req, res) {
     try {
       const data = await StudentService.removeStudent(req.params.id);
-      res.status(200).json({ status: "ok", data });
+      response = data;
     } catch (error) {
-      res.status(500).json({ error: error.toString() });
+      response = error;
     }
+    res.status(response.code).json({ ...response });
   }
   async updateStudent(req, res) {
     try {
       const data = await StudentService.updateStudent(req.body);
-      res.status(200).json({ status: "ok", data });
+      response = data;
     } catch (error) {
-      res.status(500).json({ error: error.toString() });
+      response = error;
     }
+    res.status(response.code).json({ ...response });
   }
 }
 
