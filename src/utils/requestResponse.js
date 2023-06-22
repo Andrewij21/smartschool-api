@@ -4,7 +4,7 @@ const requestResponse = {
     status: true,
     message: "Success.",
   },
-  incomplete_body: {
+  bad_request: {
     code: 400,
     status: false,
     message: "Bad request. Please check your request data.",
