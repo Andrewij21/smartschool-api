@@ -1,24 +1,34 @@
 const Student = require("../models/studentModel.js");
+const mongoose = require("mongoose");
+const { requestResponse } = require("../utils/requestResponse.js");
+
 class StudentService {
+  isValidId(id) {
+    return mongoose.Types.ObjectId.isValid(id);
+  }
+
   async getStudent() {
-    const student = await Student.find({}, { password: 0 });
-    return student;
+    const data = await Student.find({}, { password: 0 });
+    return { ...requestResponse.success, data };
   }
   async removeStudent(_id) {
-    const student = await Student.findByIdAndRemove({ _id });
-    return student;
+    if (!this.isValidId(_id))
+      throw { ...requestResponse.bad_request, message: "Invalid id" };
+    const data = await Student.findByIdAndRemove({ _id });
+    if (!data) throw { ...requestResponse.not_found };
+    return { ...requestResponse.success, data };
   }
-  async updateStudent(data) {
-    try {
-      const student = await Student.findOneAndUpdate(
-        { _id: data._id },
-        { ...data },
-        { new: true }
-      );
-      return student;
-    } catch (error) {
-      console.error({ error: error.toString() });
-    }
+  async updateStudent(student) {
+    if (!this.isValidId(student._id))
+      throw { ...requestResponse.bad_request, message: "Invalid id" };
+    const data = await Student.findOneAndUpdate(
+      { _id: student._id },
+      { ...student },
+      { new: true, projection: { password: 0 } }
+    );
+    if (!data) throw { ...requestResponse.not_found };
+
+    return { ...requestResponse.success, data };
   }
 }
 
