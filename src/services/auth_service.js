@@ -1,6 +1,8 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const Student = require("../models/studentModel.js");
+const { requestResponse } = require("../utils/requestResponse.js");
+let response;
 
 const createToken = ({ _id, role }) => {
   return jwt.sign({ _id, role }, process.env.SECRET_TOKEN, { expiresIn: "3d" });
@@ -9,27 +11,32 @@ const createToken = ({ _id, role }) => {
 class AuthService {
   async loginStudent({ nis, password }) {
     // Check if the user with the given username and role 'student' exists
-    const error = "Invalid username or password";
+    // const error = "Invalid username or password";
     const user = await Student.findOne({ nis, role: "student" });
     if (!user) {
-      throw error;
+      throw (response = { ...requestResponse.unauthorized });
     }
 
     // Validate the password
     const isValidPassword = await bcrypt.compare(password, user.password);
     if (!isValidPassword) {
-      throw error;
+      throw requestResponse.unauthorized;
     }
 
     // Generate a JWT token
     const token = createToken(user._id, user.role);
 
-    return { name: user.name, role: user.role, token };
+    return (response = {
+      ...requestResponse.success,
+      name: user.name,
+      role: user.role,
+      token,
+    });
   }
 
   async registerStudent(data) {
     const exist = await Student.findOne({ nis: data.nis });
-    if (exist) throw "Student already exist!";
+    if (exist) throw (response = { ...requestResponse.conflict });
 
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(data.password, salt);
@@ -40,7 +47,12 @@ class AuthService {
       password: hash,
     });
     const token = createToken(user._id);
-    return { name: user.name, token };
+    return (response = {
+      ...requestResponse.success,
+      name: user.name,
+      role: user.role,
+      token,
+    });
   }
 }
 
