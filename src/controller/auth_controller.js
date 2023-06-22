@@ -7,7 +7,8 @@ class AuthController {
       const data = await authService.loginStudent(req.body);
       res.status(200).json({ status: "ok", data });
     } catch (error) {
-      res.status(401).json({ error: error.message });
+      // console.log(error);
+      res.status(401).json({ status: "failed", error });
     }
   }
   async registerStudent(req, res) {
@@ -16,7 +17,7 @@ class AuthController {
       res.status(201).json({ status: "ok", data });
     } catch (error) {
       console.error({ error });
-      res.status(500).json({ error: error.message });
+      res.status(500).json({ status: "failed", error });
     }
   }
 }

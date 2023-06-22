@@ -9,15 +9,16 @@ const createToken = ({ _id, role }) => {
 class AuthService {
   async loginStudent({ nis, password }) {
     // Check if the user with the given username and role 'student' exists
+    const error = "Invalid username or password";
     const user = await Student.findOne({ nis, role: "student" });
     if (!user) {
-      throw new Error("Invalid username or role");
+      throw error;
     }
 
     // Validate the password
     const isValidPassword = await bcrypt.compare(password, user.password);
     if (!isValidPassword) {
-      throw new Error("Invalid password");
+      throw error;
     }
 
     // Generate a JWT token
@@ -28,7 +29,7 @@ class AuthService {
 
   async registerStudent(data) {
     const exist = await Student.findOne({ nis: data.nis });
-    if (exist) throw Error("Student already exist!");
+    if (exist) throw "Student already exist!";
 
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(data.password, salt);
