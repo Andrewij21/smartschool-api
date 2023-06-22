@@ -12,9 +12,16 @@ const schema = new Schema(
       unique: true,
     },
     role: {
-      type: String,
-      enum: ["teacher", "student", "parent", "admin"],
+      type: Array,
+      // enum: ["teacher", "student", "parent", "admin"],
       required: true,
+      validate: {
+        validator: function (value) {
+          const validRoles = ["teacher", "student", "parent", "admin"];
+          return value.every((role) => validRoles.includes(role));
+        },
+        message: "Invalid role",
+      },
     },
     password: {
       type: String,
