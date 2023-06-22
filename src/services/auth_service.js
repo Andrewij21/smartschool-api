@@ -3,11 +3,12 @@ const jwt = require("jsonwebtoken");
 const Student = require("../models/studentModel.js");
 const { requestResponse } = require("../utils/requestResponse.js");
 
-const createToken = ({ _id, role }) => {
-  return jwt.sign({ _id, role }, process.env.SECRET_TOKEN, { expiresIn: "3d" });
-};
-
 class AuthService {
+  createToken({ _id, role }) {
+    return jwt.sign({ _id, role }, process.env.SECRET_TOKEN, {
+      expiresIn: "3d",
+    });
+  }
   async loginStudent({ nis, password }) {
     // Check if the user with the given username and role 'student' exists
     // const error = "Invalid username or password";
@@ -23,7 +24,7 @@ class AuthService {
     }
 
     // Generate a JWT token
-    const token = createToken(user._id, user.role);
+    const token = this.createToken(user._id, user.role);
 
     return {
       ...requestResponse.success,
@@ -45,7 +46,7 @@ class AuthService {
       role: "student",
       password: hash,
     });
-    const token = createToken(user._id);
+    const token = this.createToken(user._id);
     return {
       ...requestResponse.success,
       name: user.name,
