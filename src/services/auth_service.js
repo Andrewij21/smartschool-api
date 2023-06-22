@@ -2,7 +2,6 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const Student = require("../models/studentModel.js");
 const { requestResponse } = require("../utils/requestResponse.js");
-let response;
 
 const createToken = ({ _id, role }) => {
   return jwt.sign({ _id, role }, process.env.SECRET_TOKEN, { expiresIn: "3d" });
@@ -14,7 +13,7 @@ class AuthService {
     // const error = "Invalid username or password";
     const user = await Student.findOne({ nis, role: "student" });
     if (!user) {
-      throw (response = { ...requestResponse.unauthorized });
+      throw requestResponse.unauthorized;
     }
 
     // Validate the password
@@ -26,17 +25,17 @@ class AuthService {
     // Generate a JWT token
     const token = createToken(user._id, user.role);
 
-    return (response = {
+    return {
       ...requestResponse.success,
       name: user.name,
       role: user.role,
       token,
-    });
+    };
   }
 
   async registerStudent(data) {
     const exist = await Student.findOne({ nis: data.nis });
-    if (exist) throw (response = { ...requestResponse.conflict });
+    if (exist) throw requestResponse.conflict;
 
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(data.password, salt);
@@ -47,12 +46,12 @@ class AuthService {
       password: hash,
     });
     const token = createToken(user._id);
-    return (response = {
+    return {
       ...requestResponse.success,
       name: user.name,
       role: user.role,
       token,
-    });
+    };
   }
 }
 
