@@ -11,7 +11,7 @@ const schema = new Schema(
       required: true,
       unique: true,
     },
-    role: {
+    roles: {
       type: Array,
       // enum: ["teacher", "student", "parent", "admin"],
       required: true,
