@@ -2,22 +2,22 @@ const authService = require("../services/auth_service.js");
 let response;
 
 class AuthController {
-  async loginStudent(req, res) {
+  async login(req, res) {
     try {
-      const data = await authService.loginStudent(req.body);
+      const data = await authService.login(req.body, req.params.role);
       response = data;
     } catch (error) {
-      // console.error(error);
+      console.error({ error });
       response = error;
     }
     res.status(response.code).json({ ...response });
   }
-  async registerStudent(req, res) {
+  async register(req, res) {
     try {
-      const data = await authService.registerStudent(req.body);
+      const data = await authService.register(req.body, req.params.role);
       response = data;
     } catch (error) {
-      // console.error({ error });
+      console.error({ error });
       response = error;
     }
     res.status(response.code).json({ ...response });

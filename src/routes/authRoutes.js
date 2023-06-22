@@ -1,8 +1,5 @@
 const route = require("express").Router();
-const {
-  loginStudent,
-  registerStudent,
-} = require("../controller/auth_controller");
+const authController = require("../controller/auth_controller");
 const ROLE = {
   student: "student",
   parent: "parent",
@@ -10,7 +7,7 @@ const ROLE = {
 };
 
 // student
-route.post(`/${ROLE.student}/login`, loginStudent);
-route.post(`/${ROLE.student}/register`, registerStudent);
+route.post(`/:role/login`, authController.login);
+route.post(`/:role/register`, authController.register);
 
 module.exports = route;
