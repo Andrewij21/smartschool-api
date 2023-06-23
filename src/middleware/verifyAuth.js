@@ -34,18 +34,18 @@ class VerifyAuth {
     if (typeof token === "object") return;
 
     try {
-      // if (TOKEN.hasOwnProperty(path)) console.log("ada cokk");
-      const { _id, roles } = jwt.verify(token, SECRET_TOKEN);
-      req.user_roles = roles;
+      const { _id, role } = jwt.verify(token, SECRET_TOKEN);
+      req.user_role = role;
       next();
     } catch (error) {
       res.status(403).json({ error: "Invalid Token" });
     }
   }
-  async verifyAuthAdmin(req, res, next) {
-    const roles = req.user_roles;
-    // console.log(role);
-    if (!roles.includes("admin"))
+  async verifyAuthRole(req, res, next, roles) {
+    const role = req.user_role;
+    console.log(role);
+    console.log(roles);
+    if (!roles.includes(role))
       return res.status(401).json({
         ...requestResponse.unauthorized,
         message: "You are not authorized",
