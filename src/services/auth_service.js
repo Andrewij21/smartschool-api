@@ -11,8 +11,8 @@ const { SECRET_TOKEN } = process.env;
 // };
 
 class AuthService {
-  createToken(_id, roles) {
-    return jwt.sign({ _id, roles }, SECRET_TOKEN, {
+  createToken(_id, role) {
+    return jwt.sign({ _id, role }, SECRET_TOKEN, {
       expiresIn: "3d",
     });
   }
@@ -22,14 +22,14 @@ class AuthService {
     let user;
     switch (role) {
       case "student":
-        user = await Student.findOne({ nis: data.nis, role: "student" });
+        user = await Student.findOne({ nis: data.nis });
         break;
       case "teacher":
         // BELUM ADA
         // user = await Teacher.findOne({ nis, role: "teacher" });
         break;
       case "admin":
-        user = await Admin.findOne({ email: data.email, role: "admin" });
+        user = await Admin.findOne({ email: data.email });
         break;
       case "parent":
         // BELUM ADA
@@ -55,7 +55,7 @@ class AuthService {
     return {
       ...requestResponse.success,
       name: user.name,
-      role: user.role,
+      role,
       token,
     };
   }
@@ -89,7 +89,6 @@ class AuthService {
 
     const item = {
       ...data,
-      role: [role],
       password: hash,
     };
     let newUser;
@@ -116,7 +115,7 @@ class AuthService {
     return {
       ...requestResponse.success,
       name: newUser.name,
-      role: newUser.role,
+      role,
       token,
     };
   }
