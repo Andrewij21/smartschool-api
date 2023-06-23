@@ -1,0 +1,21 @@
+@baseUrl  = http://localhost:3000/api/v1
+
+
+POST {{baseUrl}}/auth/student/login
+Content-Type: application/json
+
+{
+    "nis":"111",
+    "password":"123"
+}
+
+###
+POST {{baseUrl}}/auth/student/register
+Content-Type: application/json
+
+{
+    "name":"test",
+    "active":true,
+    "nis":"111",
+    "password":"123"
+}

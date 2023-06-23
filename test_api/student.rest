@@ -1,0 +1,16 @@
+@baseUrl  = http://localhost:3000/api/v1
+
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDk1MjlhMjRkNThmYjJiNDEyODg5ZjEiLCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTY4NzQ5OTU0NSwiZXhwIjoxNjg3NzU4NzQ1fQ.phfKHaEUm-1yud7usmpUZ6FcA0qRqOpH08GK6G5mnJw
+GET {{baseUrl}}/student
+Authorization: Bearer {{accessToken}}
+
+###
+PATCH  {{baseUrl}}/auth/student
+Content-Type: application/json
+
+{
+    "name":"test",
+    "active":true,
+    "nis":"111",
+    "password":"123"
+}
