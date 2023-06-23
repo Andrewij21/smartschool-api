@@ -6,8 +6,18 @@ const verify = require("../middleware/verifyAuth.js");
 // route.use((req, res, next) => verify.verifyAuthStudent(req, res, next));
 route.use(verify.verifyAuth);
 
-route.get("/", verify.verifyAuthAdmin, studentController.students);
-route.delete("/:id", verify.verifyAuthAdmin, studentController.removeStudent);
+function checkRolesAccess(roles) {
+  return (req, res, next) => {
+    verify.verifyAuthRole(req, res, next, roles);
+  };
+}
+
+route.get(
+  "/",
+  checkRolesAccess(["admin", "teacher"]),
+  studentController.students
+);
+route.delete("/:id", studentController.removeStudent);
 route.patch("/", studentController.updateStudent);
 
 module.exports = route;
