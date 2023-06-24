@@ -6,7 +6,7 @@ const Teacher = require("../models/teacherModel.js");
 const { requestResponse } = require("../utils/requestResponse.js");
 const {
   ROLES: { admin, teacher, parent, student },
-} = require("../utils/roles");
+} = require("../utils/roles.js");
 const { SECRET_TOKEN } = process.env;
 
 const DB = {
