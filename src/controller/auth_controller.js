@@ -10,6 +10,8 @@ class AuthController {
       console.error({ error });
       response = error;
     }
+    if (!response.code)
+      return res.status(400).json({ error: response.toString() });
     res.status(response.code).json({ ...response });
   }
   async register(req, res) {
@@ -20,6 +22,8 @@ class AuthController {
       console.error({ error });
       response = error;
     }
+    if (!response.code)
+      return res.status(400).json({ error: response.toString() });
     res.status(response.code).json({ ...response });
   }
 }
