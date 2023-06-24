@@ -2,6 +2,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const Student = require("../models/studentModel.js");
 const Admin = require("../models/adminModel.js");
+const Teacher = require("../models/teacherModel.js");
 const { requestResponse } = require("../utils/requestResponse.js");
 const {
   ROLES: { admin, teacher, parent, student },
@@ -11,6 +12,7 @@ const { SECRET_TOKEN } = process.env;
 const DB = {
   admin: Admin,
   student: Student,
+  teacher: Teacher,
 };
 
 class AuthService {
@@ -24,7 +26,7 @@ class AuthService {
       case admin:
         return { user: admin, item: { email: data.email } };
       case teacher:
-        break;
+        return { user: teacher, item: { nuptk: data.nuptk } };
       case parent:
         break;
       case student:
