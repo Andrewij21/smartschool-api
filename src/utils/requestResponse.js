@@ -13,7 +13,7 @@ const requestResponse = {
     code: 401,
     status: false,
     message:
-      "Nis or password does not match, or you are not authorized to accessing this page.",
+      "user or password does not match, or you are not authorized to accessing this page.",
   },
   not_found: {
     code: 404,
