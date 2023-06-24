@@ -22,7 +22,7 @@ class AuthService {
   checkRole(role, data) {
     switch (role) {
       case admin:
-        break;
+        return { user: admin, item: { email: data.email } };
       case teacher:
         break;
       case parent:
