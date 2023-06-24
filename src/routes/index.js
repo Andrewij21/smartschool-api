@@ -1,6 +1,7 @@
 const route = require("express").Router();
 const morgan = require("morgan");
 const studentRoutes = require("./studentRoutes");
+const teacherRoutes = require("./teacherRoutes");
 const authRoutes = require("./authRoutes");
 const ORIGIN_URI = "/api/v1";
 
@@ -12,6 +13,7 @@ route.use(morgan("dev"));
 // });
 
 route.use(ORIGIN_URI + "/student", studentRoutes);
+route.use(ORIGIN_URI + "/teacher", teacherRoutes);
 route.use(ORIGIN_URI + "/auth", authRoutes);
 
 module.exports = route;
