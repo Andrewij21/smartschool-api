@@ -3,6 +3,9 @@ const jwt = require("jsonwebtoken");
 const Student = require("../models/studentModel.js");
 const Admin = require("../models/adminModel.js");
 const { requestResponse } = require("../utils/requestResponse.js");
+const {
+  ROLES: { admin, teacher, parent, student },
+} = require("../utils/roles");
 const { SECRET_TOKEN } = process.env;
 
 const DB = {
@@ -18,14 +21,14 @@ class AuthService {
   }
   checkRole(role, data) {
     switch (role) {
-      case "student":
-        return { user: "student", item: { nis: data.nis } };
-      case "teacher":
+      case admin:
         break;
-      case "parent":
+      case teacher:
         break;
-      case "admin":
+      case parent:
         break;
+      case student:
+        return { user: student, item: { nis: data.nis } };
       default:
         throw { ...requestResponse.not_found, message: "Role not found" };
     }
