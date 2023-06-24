@@ -18,12 +18,12 @@ class TeacherService {
     if (!data) throw { ...requestResponse.not_found };
     return { ...requestResponse.success, data };
   }
-  async updateTeacher(student) {
-    if (!this.isValidId(student._id))
+  async updateTeacher(teacher) {
+    if (!this.isValidId(teacher._id))
       throw { ...requestResponse.bad_request, message: "Invalid id" };
     const data = await Teacher.findOneAndUpdate(
-      { _id: student._id },
-      { ...student },
+      { _id: teacher._id },
+      { ...teacher },
       { new: true, projection: { password: 0 } }
     );
     if (!data) throw { ...requestResponse.not_found };
