@@ -5,10 +5,10 @@ const Admin = require("../models/adminModel.js");
 const { requestResponse } = require("../utils/requestResponse.js");
 const { SECRET_TOKEN } = process.env;
 
-// const TOKEN = {
-//   admin: SECRET_TOKEN_ADMIN,
-//   student: SECRET_TOKEN_STUDENT,
-// };
+const DB = {
+  admin: Admin,
+  student: Student,
+};
 
 class AuthService {
   createToken(_id, role) {
@@ -16,28 +16,23 @@ class AuthService {
       expiresIn: "3d",
     });
   }
-  async login(data, role) {
-    // Check if the user with the given username and role 'student' exists
-    // const error = "Invalid username or password";
-    let user;
+  checkRole(role, data) {
     switch (role) {
       case "student":
-        user = await Student.findOne({ nis: data.nis });
-        break;
+        return { user: "student", item: { nis: data.nis } };
       case "teacher":
-        // BELUM ADA
-        // user = await Teacher.findOne({ nis, role: "teacher" });
-        break;
-      case "admin":
-        user = await Admin.findOne({ email: data.email });
         break;
       case "parent":
-        // BELUM ADA
-        // user = await parent.findOne({ nis, role: "student" });
+        break;
+      case "admin":
         break;
       default:
         throw { ...requestResponse.not_found, message: "Role not found" };
     }
+  }
+  async login(data, role) {
+    const userStatus = this.checkRole(role, data);
+    const user = await DB[userStatus.user].findOne(userStatus.item);
 
     if (!user) {
       throw requestResponse.unauthorized;
@@ -61,26 +56,9 @@ class AuthService {
   }
 
   async register(data, role) {
-    let user;
+    const userStatus = this.checkRole(role, data);
+    const user = await DB[userStatus.user].findOne(userStatus.item);
 
-    switch (role) {
-      case "student":
-        user = await Student.findOne({ nis: data.nis });
-        break;
-      case "teacher":
-        // BELUM ADA
-        // user = await Teacher.findOne({ nis, role: "teacher" });
-        break;
-      case "admin":
-        user = await Admin.findOne({ email: data.email });
-        break;
-      case "parent":
-        // BELUM ADA
-        // user = await parent.findOne({ nis, role: "student" });
-        break;
-      default:
-        throw { ...requestResponse.not_found, message: "Role not found" };
-    }
     // const exist = await Student.findOne({ nis: data.nis });
     if (user) throw requestResponse.conflict;
 
@@ -91,26 +69,7 @@ class AuthService {
       ...data,
       password: hash,
     };
-    let newUser;
-    switch (role) {
-      case "student":
-        newUser = await Student.create(item);
-        break;
-      case "teacher":
-        // BELUM ADA
-        // user = await Teacher.findOne({ nis, role: "teacher" });
-        break;
-      case "admin":
-        newUser = await Admin.create(item);
-        break;
-      case "parent":
-        // BELUM ADA
-        // user = await parent.findOne({ nis, role: "student" });
-        break;
-      default:
-        throw { ...requestResponse.not_found, message: "Role not found" };
-    }
-
+    const newUser = await DB[userStatus.user].create(item);
     const token = this.createToken(newUser._id, newUser.role);
     return {
       ...requestResponse.success,
