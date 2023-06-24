@@ -28,7 +28,7 @@ const requestResponse = {
   conflict: {
     code: 409,
     status: false,
-    message: "User already exist",
+    message: "Data already exist",
   },
   server_error: {
     code: 500,
