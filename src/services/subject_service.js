@@ -27,7 +27,7 @@ class SubjectService {
       throw { ...requestResponse.bad_request, message: "Invalid id" };
 
     const data = await Subject.create(subject);
-    const populateData = await this.populateData(subject);
+    const populateData = await this.populateData(data);
     return { ...requestResponse.success, data: populateData };
   }
   async removeSubject(_id) {
