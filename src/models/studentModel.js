@@ -25,7 +25,8 @@ const schema = new Schema(
       type: Date,
     },
     class: {
-      type: String,
+      type: Schema.Types.ObjectId,
+      // ref: "class",
     },
     major: {
       type: String,
