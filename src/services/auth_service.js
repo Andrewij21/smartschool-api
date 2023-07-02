@@ -72,6 +72,7 @@ class AuthService {
 
     const item = {
       ...data,
+      role,
       password: hash,
     };
     const newUser = await DB[userStatus.user].create(item);
