@@ -3,8 +3,15 @@ const { model, Schema } = require("mongoose");
 const schema = new Schema({
   class: {
     type: String,
-    required: true,
     unique: true,
+  },
+  classType: {
+    type: String,
+    unique: true,
+  },
+  major: {
+    type: String,
+    required: true,
   },
   subjects: [
     {
