@@ -1,29 +1,34 @@
 const { model, Schema } = require("mongoose");
+const attendance_schema = "attendance";
+const attendance_student_schema = "student_attendance";
 
 const schema = new Schema({
-  student: {
-    type: Schema.Types.ObjectId,
-    ref: "student",
-    required: true,
+  year: {
+    type: String,
   },
-  subject: {
-    type: Schema.Types.ObjectId,
-    ref: "subject",
-    required: true,
+  semester: {
+    type: String,
+    enum: ["semester1", "semester2"],
   },
   class: {
     type: Schema.Types.ObjectId,
-    ref: "class",
-    required: true,
   },
-  date: {
-    type: Date,
-    required: true,
-  },
-  status: {
-    type: String,
-    enum: ["Present", "Absent", "Late"],
-    required: true,
-  },
+  students: [
+    {
+      studentId: { type: Schema.Types.ObjectId },
+      name: { type: String },
+      image: { type: Buffer },
+      time: {
+        type: Date,
+        default: () => Date.now(),
+      },
+      status: {
+        type: String,
+        enum: ["hadir", "alpha", "terlambat"],
+        required: true,
+      },
+    },
+  ],
 });
+
 module.exports = model("attendance", schema);
