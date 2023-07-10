@@ -20,6 +20,7 @@ route.get("/", attendanceController.attendances);
 route.post("/", attendanceController.createAttendance);
 route.patch("/:id", attendanceController.addStudentToAttendance);
 route.delete("/:id", attendanceController.removeAttendance);
+route.delete("/student/:id", attendanceController.removeStudentFromAttendance);
 route.patch("/", attendanceController.updateAttendance);
 
 module.exports = route;

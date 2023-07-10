@@ -79,6 +79,31 @@ class AttendanceService {
     if (!data) throw { ...requestResponse.not_found };
     return { ...requestResponse.success, data };
   }
+  async removeStudentFromAttendance(attendance_id, student_attendance_id) {
+    // console.log(attendance_id, student_attendance_id);
+    if (!this.isValidId(attendance_id))
+      throw {
+        ...requestResponse.bad_request,
+        message: "Invalid id attendance",
+      };
+    if (!this.isValidId(student_attendance_id))
+      throw {
+        ...requestResponse.bad_request,
+        message: "Invalid student id attendance",
+      };
+    const attendance = await Attendance.findOne({ _id: attendance_id });
+    if (!attendance) throw { ...requestResponse.not_found };
+
+    attendance.students = attendance.students.filter(
+      (student) => student._id.toString() !== student_attendance_id
+    );
+    console.log(attendance);
+    const item = await attendance.save();
+
+    // const populateData = await this.populateData(data);
+
+    return { ...requestResponse.success, data: item };
+  }
 
   async updateAttendance(data) {
     if (!this.isValidId(data._id))
