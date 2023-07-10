@@ -98,6 +98,7 @@ const schema = new Schema(
     guardian_data: {
       nik: String,
       name: String,
+      relationship: String,
       birthDate: String,
       religion: String,
       last_education: String,
