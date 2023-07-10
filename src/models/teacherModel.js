@@ -10,6 +10,12 @@ const schema = new Schema({
     required: true,
     unique: true,
   },
+  email: {
+    type: String,
+  },
+  nik: {
+    type: String,
+  },
   role: {
     type: String,
     // enum: ["teacher", "student", "parent", "admin"],
@@ -24,6 +30,31 @@ const schema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "subject",
     default: null,
+  },
+  birth_date: {
+    type: Date,
+  },
+  birth_place: {
+    type: String,
+  },
+  gender: {
+    type: String,
+  },
+  address: {
+    type: String,
+  },
+  religion: {
+    type: String,
+  },
+  phone_number: {
+    type: String,
+  },
+  citizenship: {
+    type: String,
+  },
+  active: {
+    type: Boolean,
+    required: true,
   },
 });
 module.exports = model("teacher", schema);
