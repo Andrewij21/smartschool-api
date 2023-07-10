@@ -11,6 +11,13 @@ class StudentService {
     const data = await Student.find({}, { password: 0 });
     return { ...requestResponse.success, data };
   }
+  async getStudentById(_id) {
+    if (!this.isValidId(_id))
+      throw { ...requestResponse.bad_request, message: "Invalid id" };
+    const data = await Student.findOne({ _id }, { password: 0 });
+    if (!data) throw { ...requestResponse.not_found };
+    return { ...requestResponse.success, data };
+  }
   async removeStudent(_id) {
     if (!this.isValidId(_id))
       throw { ...requestResponse.bad_request, message: "Invalid id" };

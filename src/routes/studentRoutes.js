@@ -10,6 +10,7 @@ const {
 route.use(verify.verifyAuth);
 
 route.get("/", checkRolesAccess([admin]), studentController.students);
+route.get("/:id", studentController.studentById);
 route.delete("/:id", studentController.removeStudent);
 route.patch("/", studentController.updateStudent);
 

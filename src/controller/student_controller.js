@@ -1,4 +1,5 @@
 const StudentService = require("../services/student_service.js");
+const { checkResponse } = require("../utils/checkResponse.js");
 let response;
 
 class StudentController {
@@ -9,7 +10,16 @@ class StudentController {
     } catch (error) {
       response = error;
     }
-    res.status(response.code).json({ ...response });
+    checkResponse(res, response);
+  }
+  async studentById(req, res) {
+    try {
+      const data = await StudentService.getStudentById(req.params.id);
+      response = data;
+    } catch (error) {
+      response = error;
+    }
+    checkResponse(res, response);
   }
   async removeStudent(req, res) {
     try {
@@ -18,7 +28,7 @@ class StudentController {
     } catch (error) {
       response = error;
     }
-    res.status(response.code).json({ ...response });
+    checkResponse(res, response);
   }
   async updateStudent(req, res) {
     try {
@@ -27,7 +37,7 @@ class StudentController {
     } catch (error) {
       response = error;
     }
-    res.status(response.code).json({ ...response });
+    checkResponse(res, response);
   }
 }
 
