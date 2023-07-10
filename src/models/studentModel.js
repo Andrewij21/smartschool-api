@@ -33,7 +33,6 @@ const schema = new Schema(
     },
     gender: {
       type: String,
-      enum: ["Male", "Female"],
     },
     address: {
       type: String,
