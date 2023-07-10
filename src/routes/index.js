@@ -6,6 +6,7 @@ const authRoutes = require("./authRoutes");
 const subjectRoutes = require("./subjectRoutes");
 const classRoutes = require("./classRoutes");
 const attendanceRoutes = require("./attendanceRoutes");
+const coordinateRoutes = require("./coordinateRouter");
 const ORIGIN_URI = "/api/v1";
 
 // Use LOG request
@@ -36,5 +37,6 @@ route.use(ORIGIN_URI + "/auth", authRoutes);
 route.use(ORIGIN_URI + "/subject", subjectRoutes);
 route.use(ORIGIN_URI + "/class", classRoutes);
 route.use(ORIGIN_URI + "/attendance", attendanceRoutes);
+route.use(ORIGIN_URI + "/coordinate", coordinateRoutes);
 
 module.exports = route;
