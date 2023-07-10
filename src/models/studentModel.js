@@ -8,7 +8,6 @@ const schema = new Schema(
     },
     email: {
       type: String,
-      required: true,
     },
     nis: {
       type: String,
