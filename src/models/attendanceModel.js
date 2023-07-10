@@ -25,7 +25,6 @@ const schema = new Schema({
       status: {
         type: String,
         enum: ["hadir", "alpha", "terlambat"],
-        required: true,
       },
     },
   ],
