@@ -63,6 +63,17 @@ class AttendanceController {
     }
     checkResponse(res, response);
   }
+  async removeAllStudentFromAttendance(req, res) {
+    try {
+      const data = await attendanceService.removeAllStudentsFromAttendance(
+        req.params.id
+      );
+      response = data;
+    } catch (error) {
+      response = error;
+    }
+    checkResponse(res, response);
+  }
   async updateAttendance(req, res) {
     try {
       const data = await attendanceService.updateAttendance(req.body);
