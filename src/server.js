@@ -12,6 +12,7 @@ const routes = require("./routes");
 // const corsOptions = { origin: "https://poetic-halva-a0d5af.netlify.app" };
 app.use(cors()); //Handle premission
 app.use(express.json()); // POST json data
+app.use(express.urlencoded({ extended: true })); //send form payload
 app.use(helmet()); // Secure HTTP headers
 // app.use(
 //   compression({
