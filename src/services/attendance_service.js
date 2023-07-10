@@ -18,7 +18,7 @@ class AttendanceService {
     const item = await Attendance.create(data);
     return { ...requestResponse.success, data: item };
   }
-  async addStudentToAttendance(id, data) {
+  async addStudentToAttendance(id, data, image) {
     const currentDate = new Date();
 
     let start = new Date(currentDate.setHours(0, 0, 0, 0));
@@ -31,8 +31,9 @@ class AttendanceService {
     const attendance = await Attendance.findById(id);
     if (!attendance) throw requestResponse.not_found;
 
+    console.log({ data });
     if (!this.isValidId(data.studentId))
-      throw { ...requestResponse.bad_request, message: "Invalid class id" };
+      throw { ...requestResponse.bad_request, message: "Invalid student id" };
 
     let hour = new Date().getHours();
     // if (hour < 6)
@@ -49,12 +50,16 @@ class AttendanceService {
     });
 
     if (matchingStudents.length > 0)
-      return {
+      throw {
         ...requestResponse.success,
         message: "Anda sudah absen",
         matchingStudents,
       };
-    attendance.students.push(data);
+
+    // const absen = { ...data, image: image.path };
+    const absen = { ...data };
+    // console.log({ absen });
+    attendance.students.push(absen);
     const item = await attendance.save();
     return { ...requestResponse.success, data: item };
   }
